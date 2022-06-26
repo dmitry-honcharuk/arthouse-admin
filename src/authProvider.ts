@@ -1,37 +1,56 @@
-import { AuthProvider } from "@pankod/refine-core";
+import { AuthProvider } from '@pankod/refine-core';
+import { APP_ROOT_URL } from 'config';
 
-export const TOKEN_KEY = "refine-auth";
+export const TOKEN_KEY = 'refine-auth';
 
 export const authProvider: AuthProvider = {
-  login: async ({ username, password }) => {
-    if (username === "admin" && password === "admin") {
-      localStorage.setItem(TOKEN_KEY, username);
-      return Promise.resolve();
+  login: async ({ email, password, passwordConfirm }) => {
+    const body = new FormData();
+
+    body.set('email', email);
+    body.set('password', password);
+    body.set('passwordConfirm', passwordConfirm);
+
+    const res = await fetch(`${APP_ROOT_URL}/login`, {
+      method: 'POST',
+      body,
+    });
+
+    if (res.ok) {
+      return;
     }
-    return Promise.reject(new Error("username: admin, password: admin"));
+
+    const result = await res.json();
+
+    throw new Error(result.message ?? result);
   },
-  logout: () => {
-    localStorage.removeItem(TOKEN_KEY);
-    return Promise.resolve();
+  logout: async () => {
+    await fetch(`${APP_ROOT_URL}/logout`, {
+      method: 'POST',
+    });
   },
   checkError: () => Promise.resolve(),
-  checkAuth: () => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (token) {
+  checkAuth: async () => {
+    const res = await fetch(`${APP_ROOT_URL}/current`);
+
+    if (res.ok) {
       return Promise.resolve();
     }
 
-    return Promise.reject();
+    const result = await res.json();
+
+    throw new Error(result.message ?? result);
   },
   getPermissions: () => Promise.resolve(),
   getUserIdentity: async () => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      return Promise.reject();
+    const res = await fetch(`${APP_ROOT_URL}/current`);
+
+    if (res.ok) {
+      return Promise.resolve();
     }
 
-    return Promise.resolve({
-      id: 1,
-    });
+    const result = await res.json();
+
+    throw new Error(result.message ?? result);
   },
 };
