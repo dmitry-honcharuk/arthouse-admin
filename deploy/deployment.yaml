@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: arthouse
+  name: arthouse-admin-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arthouse-admin
+  template:
+    metadata:
+      labels:
+        app: arthouse-admin
+    spec:
+      containers:
+        - name: arthouse-admin
+          image: dmitryhoncharuk/arthouse-admin:stage
+          readinessProbe:
+            httpGet:
+              port: 3000
+              path: /healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: arthouse
+  name: arthouse-admin-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    app: arthouse-admin
+  ports:
+    - name: arthouse-admin
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
