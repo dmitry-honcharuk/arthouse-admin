@@ -6,7 +6,9 @@ export interface IPost {
   id: string;
   title: string;
   content: string;
-  status: "published" | "draft" | "rejected";
+  status: 'published' | 'draft' | 'rejected';
   createdAt: string;
   category: ICategory;
 }
+
+export { User } from './User';

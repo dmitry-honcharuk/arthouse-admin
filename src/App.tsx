@@ -1,23 +1,24 @@
-import { Refine } from "@pankod/refine-core";
 import {
+  ErrorComponent,
   notificationProvider,
   ReadyPage,
-  ErrorComponent,
-  LoginPage,
-} from "@pankod/refine-antd";
-import routerProvider from "@pankod/refine-react-router-v6";
-import dataProvider from "@pankod/refine-simple-rest";
-import "styles/antd.less";
-import { PostList, PostCreate, PostEdit, PostShow } from "pages/posts";
+} from '@pankod/refine-antd';
+import { Refine } from '@pankod/refine-core';
+import routerProvider from '@pankod/refine-react-router-v6';
+import dataProvider from '@pankod/refine-simple-rest';
 import {
-  Title,
-  Header,
-  Sider,
   Footer,
+  Header,
   Layout,
   OffLayoutArea,
-} from "components/layout";
-import { authProvider } from "./authProvider";
+  Sider,
+  Title,
+} from 'components/layout';
+import { Login } from 'components/layout/login/login';
+import { APP_ROOT_URL } from 'config';
+import { UserShow, UsersList } from 'pages/users';
+import 'styles/antd.less';
+import { authProvider } from './authProvider';
 
 function App() {
   return (
@@ -26,18 +27,10 @@ function App() {
       ReadyPage={ReadyPage}
       catchAll={<ErrorComponent />}
       routerProvider={routerProvider}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+      dataProvider={dataProvider(APP_ROOT_URL)}
       authProvider={authProvider}
-      LoginPage={LoginPage}
-      resources={[
-        {
-          name: "posts",
-          list: PostList,
-          create: PostCreate,
-          edit: PostEdit,
-          show: PostShow,
-        },
-      ]}
+      LoginPage={Login}
+      resources={[{ name: 'users', list: UsersList, show: UserShow }]}
       Title={Title}
       Header={Header}
       Sider={Sider}

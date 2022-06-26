@@ -1,36 +1,36 @@
-import { useState } from "react";
-import { IResourceComponentsProps } from "@pankod/refine-core";
 import {
   Create,
   Form,
   Input,
   Select,
-  useSelect,
   useForm,
-} from "@pankod/refine-antd";
+  useSelect,
+} from '@pankod/refine-antd';
+import { IResourceComponentsProps } from '@pankod/refine-core';
+import { useState } from 'react';
 
-import ReactMarkdown from "react-markdown";
-import ReactMde from "react-mde";
+import ReactMarkdown from 'react-markdown';
+import ReactMde from 'react-mde';
 
-import "react-mde/lib/styles/css/react-mde-all.css";
+import 'react-mde/lib/styles/css/react-mde-all.css';
 
-import { IPost, ICategory } from "interfaces";
+import { ICategory, IPost } from 'interfaces';
 
 export const PostCreate: React.FC<IResourceComponentsProps> = () => {
-  const [selectedTab, setSelectedTab] = useState<"write" | "preview">("write");
+  const [selectedTab, setSelectedTab] = useState<'write' | 'preview'>('write');
 
   const { formProps, saveButtonProps } = useForm<IPost>();
 
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
-    resource: "categories",
+    resource: 'categories',
   });
 
   return (
     <Create saveButtonProps={saveButtonProps}>
-      <Form {...formProps} layout="vertical">
+      <Form {...formProps} layout='vertical'>
         <Form.Item
-          label="Title"
-          name="title"
+          label='Title'
+          name='title'
           rules={[
             {
               required: true,
@@ -40,8 +40,8 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
           <Input />
         </Form.Item>
         <Form.Item
-          label="Status"
-          name="status"
+          label='Status'
+          name='status'
           rules={[
             {
               required: true,
@@ -51,24 +51,24 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
           <Select
             options={[
               {
-                label: "published",
-                value: "published",
+                label: 'published',
+                value: 'published',
               },
               {
-                label: "draft",
-                value: "draft",
+                label: 'draft',
+                value: 'draft',
               },
               {
-                label: "rejected",
-                value: "rejected",
+                label: 'rejected',
+                value: 'rejected',
               },
             ]}
           />
         </Form.Item>
 
         <Form.Item
-          label="Category"
-          name={["category", "id"]}
+          label='Category'
+          name={['category', 'id']}
           rules={[
             {
               required: true,
@@ -78,8 +78,8 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
           <Select {...categorySelectProps} />
         </Form.Item>
         <Form.Item
-          label="Content"
-          name="content"
+          label='Content'
+          name='content'
           rules={[
             {
               required: true,
