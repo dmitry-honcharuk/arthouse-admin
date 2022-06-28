@@ -11,4 +11,5 @@ export interface IPost {
   category: ICategory;
 }
 
+export { Project } from './Project';
 export { User } from './User';

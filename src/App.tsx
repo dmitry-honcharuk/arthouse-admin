@@ -16,6 +16,7 @@ import {
 } from 'components/layout';
 import { Login } from 'components/layout/login/login';
 import { APP_ROOT_URL } from 'config';
+import { ProjectList, ProjectShow } from 'pages/projects';
 import { UserShow, UsersList } from 'pages/users';
 import 'styles/antd.less';
 import { authProvider } from './authProvider';
@@ -30,7 +31,10 @@ function App() {
       dataProvider={dataProvider(APP_ROOT_URL)}
       authProvider={authProvider}
       LoginPage={Login}
-      resources={[{ name: 'users', list: UsersList, show: UserShow }]}
+      resources={[
+        { name: 'users', list: UsersList, show: UserShow },
+        { name: 'projects', list: ProjectList, show: ProjectShow },
+      ]}
       Title={Title}
       Header={Header}
       Sider={Sider}

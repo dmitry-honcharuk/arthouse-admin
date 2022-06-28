@@ -1,6 +1,6 @@
 import {
+  BooleanField,
   EmailField,
-  getDefaultSortOrder,
   Icons,
   List,
   ShowButton,
@@ -31,8 +31,6 @@ export const UsersList: React.FC = () => {
           key='email'
           title='Email'
           render={(value) => <EmailField value={value} />}
-          defaultSortOrder={getDefaultSortOrder('email', sorter)}
-          sorter
         />
         <Table.Column
           dataIndex={['profile', 'firstName']}
@@ -48,11 +46,16 @@ export const UsersList: React.FC = () => {
         />
         <Table.Column
           dataIndex='admin'
-          key='admin'
           title='Admin'
-          render={(value) =>
-            value ? <CheckSquareOutlined /> : <MinusSquareOutlined />
-          }
+          render={(value) => (
+            <BooleanField
+              value={!!value}
+              trueIcon={<CheckSquareOutlined />}
+              falseIcon={<MinusSquareOutlined />}
+              valueLabelTrue='admin'
+              valueLabelFalse='non admin'
+            />
+          )}
         />
         <Table.Column<User>
           title='Actions'
